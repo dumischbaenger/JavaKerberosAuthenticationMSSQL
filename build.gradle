@@ -1,0 +1,24 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'application'
+
+mainClassName = "de.dumischbaenger.JAASKerberosADAuthentication"
+applicationDefaultJvmArgs = []
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile "org.slf4j:slf4j-simple:1.7.25"
+  compile 'com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre8'
+}
+
+task runScharf {
+  group 'bet'
+  run.args=[
+//    '-dbhost',      'celsius',
+  ]
+  dependsOn run
+}
