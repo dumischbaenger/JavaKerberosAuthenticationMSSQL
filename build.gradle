@@ -3,7 +3,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven'
 apply plugin: 'application'
 
-mainClassName = "de.dumischbaenger.JAASKerberosADAuthentication"
+mainClassName = "de.dumischbaenger.JavaKerberos"
 applicationDefaultJvmArgs = []
 
 repositories {
@@ -15,10 +15,25 @@ dependencies {
   compile 'com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre8'
 }
 
-task runScharf {
+task runJavaKerberos {
+  doFirst{
+    mainClassName = "de.dumischbaenger.JavaKerberos"
+    run.args=[
+      //'-dbhost',      'celsius',
+    ]
+  }
+
   group 'bet'
-  run.args=[
-//    '-dbhost',      'celsius',
-  ]
-  dependsOn run
+  finalizedBy run
+}
+
+task runOsKerberos {
+  doFirst{
+    mainClassName = "de.dumischbaenger.OSKerberos"
+    run.args=[
+      //'-dbhost',      'celsius',
+    ]
+  }
+  group 'bet'
+  finalizedBy run
 }
