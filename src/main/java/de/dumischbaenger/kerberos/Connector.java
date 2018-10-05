@@ -35,10 +35,7 @@ public class Connector {
       + "databaseName="+s.getProperty("dbname")+";"
       + "authenticationScheme=JavaKerberos;integratedSecurity=true;"
       + "serverSpn="+s.getProperty("serverSpn")+";"
-      + "jaasConfigurationName="+s.getProperty("jaasConfigurationNameJavaKerberos")+";"
-      + "user="+s.getProperty("username")+";"
-      + "password="+s.getProperty("password")+";"; 
-
+    ;
     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
     Connection con;
@@ -48,30 +45,9 @@ public class Connector {
     
 
     LOGGER.info(con.getMetaData().getDriverName());
-	    
-	  Statement stmt = null;
-	  ResultSet rs = null;
 
-	  // Create and execute an SQL statement that returns some data.
-	  String [] sqlList = new String[] {
-		  "select user,db_name()",
-		  "select user,auth_scheme from sys.dm_exec_connections where session_id=@@spid"
-	  };
-	  
-	  for(Integer i=0; i<sqlList.length;i++){
-		String sql=sqlList[i];
-
-		stmt = con.createStatement();
-		rs = stmt.executeQuery(sql);
-
-		LOGGER.info("Statement: "+sql);
-		LOGGER.info("Result: ");
-		// Iterate through the data in the result set and display it.
-		while (rs.next()) {
-		  LOGGER.info("Row: " + rs.getString(1) + ", " + rs.getString(2));
-		}   
-	  }
-
+    
+    doTest(con);
 
 	    
 	  con.close();
@@ -88,10 +64,7 @@ public class Connector {
       + "databaseName="+s.getProperty("dbname")+";"
       + "authenticationScheme=JavaKerberos;integratedSecurity=true;"
       + "serverSpn="+s.getProperty("serverSpn")+";"
-      + "jaasConfigurationName="+s.getProperty("jaasConfigurationNameOsKerberos")+";"
-      + "user=;"
-      + "password=;"; 
-  
+    ;  
     Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
   
     Connection con;
@@ -100,34 +73,38 @@ public class Connector {
     con = DriverManager.getConnection(connectionUrl);
     
   
-    LOGGER.info(con.getMetaData().getDriverName());
+    doTest(con);
+  
       
+    con.close();
+  }
+  
+  private static void doTest(Connection con) throws Exception {
+    LOGGER.info(con.getMetaData().getDriverName());
+    
     Statement stmt = null;
     ResultSet rs = null;
   
     // Create and execute an SQL statement that returns some data.
     String [] sqlList = new String[] {
-  	  "select user,db_name()",
-  	  "select user,auth_scheme from sys.dm_exec_connections where session_id=@@spid"
+      "select user,db_name()",
+      "select user,auth_scheme from sys.dm_exec_connections where session_id=@@spid"
     };
     
     for(Integer i=0; i<sqlList.length;i++){
-  	String sql=sqlList[i];
+    String sql=sqlList[i];
   
-  	stmt = con.createStatement();
-  	rs = stmt.executeQuery(sql);
+    stmt = con.createStatement();
+    rs = stmt.executeQuery(sql);
   
-  	LOGGER.info("Statement: "+sql);
-  	LOGGER.info("Result: ");
-  	// Iterate through the data in the result set and display it.
-  	while (rs.next()) {
-  	  LOGGER.info("Row: " + rs.getString(1) + ", " + rs.getString(2));
-  	}   
+    LOGGER.info("Statement: "+sql);
+    LOGGER.info("Result: ");
+    // Iterate through the data in the result set and display it.
+    while (rs.next()) {
+      LOGGER.info("Row: " + rs.getString(1) + ", " + rs.getString(2));
+    }   
     }
-  
-  
-      
-    con.close();
+    
   }
 
 }
