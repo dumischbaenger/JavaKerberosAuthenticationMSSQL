@@ -19,7 +19,7 @@ public class OSKerberos {
       LOG.info("program started");
 
 //      Security.setProperty("auth.login.defaultCallbackHandler", "de.dumischbaenger.kerberos.KerberosCallBackHandler");
-//      Security.setProperty("login.configuration.provider", "de.dumischbaenger.kerberos.KerberosConfig");    
+      Security.setProperty("login.configuration.provider", "de.dumischbaenger.kerberos.KerberosConfig");    
 
 
       try {
