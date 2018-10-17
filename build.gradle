@@ -1,10 +1,19 @@
+buildscript {
+  repositories { jcenter() }
+  dependencies { classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4" }
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'maven'
 apply plugin: 'application'
 
-mainClassName = "de.dumischbaenger.JAASKerberosADAuthentication"
+mainClassName = "de.dumischbaenger.OSKerberos"
 applicationDefaultJvmArgs = []
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+
+
 
 repositories {
   jcenter()
